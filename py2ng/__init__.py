@@ -1,6 +1,7 @@
 import inspect
 from marshmallow import Schema, fields
 
+
 TYPE_MAP = {
     fields.Bool: 'bool',
     fields.Boolean: 'bool',
@@ -60,8 +61,9 @@ def sch_to_intrf(name, schema, conv_camel=False):
     name = name.replace('Schema', '') + 'Interface'
     fields = []
     indent = ' ' * 4
+    initialized = schema()
 
-    for k, v in schema._declared_fields.items():
+    for k, v in initialized.fields.items():
         ts_type = TYPE_MAP.get(type(v), 'any')
         fields.append(
             f'{indent}{k if not conv_camel else to_camel(k)}: {ts_type};')
